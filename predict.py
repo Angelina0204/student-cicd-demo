@@ -7,7 +7,7 @@ model = joblib.load("student_placement_model.pkl")
 
 # Student details
 student = [[
-    8.2,   # CGPA
+    8.7,   # CGPA
     88,    # Attendance
     78,    # Coding Score
     3,     # Projects
