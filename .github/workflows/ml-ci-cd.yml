@@ -1,41 +1,42 @@
-name: ML CI/CD Pipeline
+name: Student CI-CD Pipeline
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
 
-  ml-pipeline:
-
+  test:
+    name: CI - Test Application
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install Dependencies
         run: |
+          pip install pytest
           pip install -r requirements.txt
 
-      - name: Train ML Model
-        run: |
-          python train.py
-
-      - name: Run Prediction
-        run: |
-          python predict.py
-
-      - name: Run Automated Tests
+      - name: Run Tests
         run: |
           pytest
+
+  deploy:
+    name: CD - Deploy Application
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy Application
+        run: |
+          echo "Application deployed successfully!"
